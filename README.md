@@ -52,4 +52,70 @@
                 BPMN
             Государственные поликлиники
             Автоматизация документооборота организации
+
+    journey
+    title Путь пациента для системы поликлиники
+    section Вход в систему
+      Авторизация: 5: Пациент
+      Регистрация: 4: Пациент
+    section Оформление медкарты
+      Ввод данных: 4: Пациент
+      Ожидание одообрения: 3: Пациент
+      Уведомление о создании: 5: Пациент
+    section Запись к врачу
+      Выбор желаемого врача: 5: Пациент
+      Выбор желаемой даты: 4: Пациент
+      Согласование записи: 5: Пациент
+    section Оплата услуг
+      Выбор желаемого способа: 4: Пациент
+      Редирект на оплату: 3: Пациент
+      Ввод данных: 2: Пациент
+      Получение уведомления: 5: Пациент
+    
+    quadrantChart
+    title Отношение сложности к пользовательскому опыту
+    x-axis "Низкая вовлечённость" --> "Высокая вовлечённость"
+    y-axis "Низкая сложность" --> "Высокая сложность"
+    "Cистема оплаты": [0.8, 0.55]
+    "Запись к врачу": [0.9, 0.9]
+    "Электронный документооборот": [0.6, 0.69]
+    "Управление анализами": [0.3, 0.2]
+    "Уведомления": [0.45, 0.35]
+    "Задания по документам": [0.3, 0.78]
+    "Выдача электронных направлений": [0.45, 0.45]
+
+    gitGraph
+   commit id: "init"
+   branch auth_feature
+   checkout auth_feature
+   commit id: "Создание регистрации"
+   commit id: "Создание авторизации"
+   checkout main
+   merge auth_feature
+   branch appointment_feature
+   checkout appointment_feature
+   commit id: "Создание сущности врача и пациента"
+   commit id: "Написание логики записи"
+   commit id: "Создание клиентской части"
+   checkout main
+   merge appointment_feature
+   branch docs_feature
+   checkout docs_feature
+   commit id: "Создание типов документов"
+   commit id: "Автоматизация БП"
+   commit id: "Вёрстка картоек документов"
+   checkout main
+   merge docs_feature
+   branch notification_feature
+   checkout notification_feature
+   commit id: "Интегравция с RabbirMQ"
+   commit id: "Передача сообщений в брокер"
+   checkout main
+   merge notification_feature
+   branch payment_feature
+   checkout payment_feature
+   commit id: "Интегравция с внешнеим сервисом оплаты"
+   commit id: "Добавление уведомлений об оплате"
+   checkout main
+   merge payment_feature
 ```
